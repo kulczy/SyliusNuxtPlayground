@@ -5,8 +5,7 @@
     <div class="mb-6">
       <div v-for="(variant, i) in product.variants" :key="variant.code">
         {{ variants[i].translations.en_US.name }} - Price:
-        <!-- TODO Wrong prices -->
-        {{ variant.channelPricings.FASHION_WEB.price / 100 }}
+        {{ variant.channelPricings.FASHION_WEB.price | price }}
       </div>
     </div>
     <button>Add to cart</button>
@@ -25,19 +24,15 @@ export default {
   },
 
   async asyncData({ $axios, params }) {
-    const base = 'https://master.demo.sylius.com';
-
-    const product = await $axios.$get(
-      `${base}/api/v2/shop/products/${params.slug}`
-    );
+    const product = await $axios.$get(`/api/v2/shop/products/${params.slug}`);
 
     const translations = await $axios.$get(
-      `${base}${product.translations.en_US['@id']}`
+      `${product.translations.en_US['@id']}`
     );
 
     const variants = await Promise.all(
       product.variants.map(item => {
-        return $axios.$get(`${base}${item['@id']}`);
+        return $axios.$get(`${item['@id']}`);
       })
     );
 
