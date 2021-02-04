@@ -8,7 +8,7 @@
         />
       </div>
       <div class="col-span-2">
-        <div class="text-2xl font-bold mb-1">
+        <div class="text-4xl font-bold mb-1">
           {{ translations.name }}
         </div>
         <div class="text-xs mb-6">

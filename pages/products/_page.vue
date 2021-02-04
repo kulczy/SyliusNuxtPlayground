@@ -1,5 +1,6 @@
 <template>
   <div>
+    <div class="text-4xl font-bold mb-10">Products</div>
     <div class="grid grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
       <div
         v-for="product in products['hydra:member']"
