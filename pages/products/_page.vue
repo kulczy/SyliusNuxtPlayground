@@ -8,9 +8,7 @@
       >
         <ProductCard
           :title="product.translations.en_US.name"
-          :image="
-            `https://master.demo.sylius.com/media/image/${product.images[0].path}`
-          "
+          :image="`${product.images[0].path}`"
           :url="`/product/${product.code}`"
           :price="product.variants[0].channelPricings.FASHION_WEB.price | price"
         />

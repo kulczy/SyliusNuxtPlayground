@@ -1,13 +1,24 @@
 <template>
   <div class="image">
-    <img :src="src" :alt="alt" class="rounded" />
+    <img :src="base + src" :alt="alt" class="rounded" />
   </div>
 </template>
 
 <script>
 export default {
   name: 'ProductImage',
-  props: ['src', 'alt']
+  props: {
+    base: {
+      type: String,
+      default: 'https://master.demo.sylius.com/media/image/'
+    },
+    src: {
+      type: String
+    },
+    alt: {
+      type: String
+    }
+  }
 };
 </script>
 

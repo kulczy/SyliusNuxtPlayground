@@ -1,14 +1,61 @@
 <template>
   <div>
-    <div class="text-2xl mb-6">{{ translations.name }}</div>
-    <div class="mb-6">{{ translations.description }}</div>
-    <div class="mb-6">
-      <div v-for="(variant, i) in product.variants" :key="variant.code">
-        {{ variants[i].translations.en_US.name }} - Price:
-        {{ variant.channelPricings.FASHION_WEB.price | price }}
+    <div class="md:grid grid-cols-3 gap-10 mb-10">
+      <div class="mb-6">
+        <ProductImage
+          :src="`${product.images[0].path}`"
+          :alt="translations.name"
+        />
+      </div>
+      <div class="col-span-2">
+        <div class="text-2xl font-bold mb-1">
+          {{ translations.name }}
+        </div>
+        <div class="text-xs mb-6">
+          {{ product.code }}
+        </div>
+        <div class="mb-6">
+          {{ translations.shortDescription }}
+        </div>
+        <div class="border rounded p-5 mb-5">
+          <div v-if="product.variants.length > 1" class="mb-3">
+            <select
+              v-model="selectedVariant"
+              class="block w-full border rounded p-3"
+            >
+              <option
+                v-for="(variant, i) in product.variants"
+                :key="variant.code"
+                :value="i"
+              >
+                {{ variantsDetails[i].translations.en_US.name }}
+              </option>
+            </select>
+          </div>
+          <div>
+            <input
+              v-model="quantity"
+              class="border rounded p-3"
+              type="number"
+              min="0"
+            />
+          </div>
+        </div>
+        <div class="flex items-center">
+          <FormButton value="Add to cart (TODO)" />
+          <span class="text-xl font-bold pl-5">
+            {{
+              product.variants[selectedVariant].channelPricings.FASHION_WEB
+                .price | price
+            }}
+          </span>
+        </div>
       </div>
     </div>
-    <button>Add to cart</button>
+    <div class="mb-10">
+      <div class="text-2xl font-bold mb-4">Details</div>
+      <div>{{ translations.description }}</div>
+    </div>
   </div>
 </template>
 
@@ -19,7 +66,9 @@ export default {
     return {
       product: {},
       translations: {},
-      variants: []
+      variantsDetails: [],
+      selectedVariant: 0,
+      quantity: 1
     };
   },
 
@@ -30,13 +79,13 @@ export default {
       `${product.translations.en_US['@id']}`
     );
 
-    const variants = await Promise.all(
+    const variantsDetails = await Promise.all(
       product.variants.map(item => {
         return $axios.$get(`${item['@id']}`);
       })
     );
 
-    return { product, translations, variants };
+    return { product, translations, variantsDetails };
   }
 };
 </script>
