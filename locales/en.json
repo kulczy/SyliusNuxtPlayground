@@ -1,8 +1,12 @@
 {
   "addToCart": "Add to cart",
   "details": "Details",
+  "email": "E-mail",
+  "home": "Home",
   "latestProducts": "Latest products",
+  "login": "Login",
   "myAccount": "My account",
+  "password": "Password",
   "products": "Products",
   "submit": "Submit"
 }

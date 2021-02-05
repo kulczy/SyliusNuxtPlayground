@@ -32,7 +32,7 @@ export default {
 
   async asyncData({ $axios, params }) {
     const products = await $axios.$get(
-      `/api/v2/shop/products?itemsPerPage=4&page=1`
+      `/syliusapi/api/v2/shop/products?itemsPerPage=4&page=1`
     );
 
     return { products };

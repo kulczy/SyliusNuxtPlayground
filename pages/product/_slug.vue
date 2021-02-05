@@ -42,7 +42,7 @@
           </div>
         </div>
         <div class="flex items-center">
-          <FormButton :value="$t('addToCart')" />
+          <FormButton :value="$t('addToCart')" type="button" />
           <span class="text-xl font-bold pl-5">
             {{
               product.variants[selectedVariant].channelPricings.FASHION_WEB
@@ -73,15 +73,17 @@ export default {
   },
 
   async asyncData({ $axios, app, params }) {
-    const product = await $axios.$get(`/api/v2/shop/products/${params.slug}`);
+    const product = await $axios.$get(
+      `/syliusapi/api/v2/shop/products/${params.slug}`
+    );
 
     const translations = await $axios.$get(
-      `${product.translations[app.i18n.locale]['@id']}`
+      `/syliusapi/${product.translations[app.i18n.locale]['@id']}`
     );
 
     const variantsDetails = await Promise.all(
       product.variants.map(item => {
-        return $axios.$get(`${item['@id']}`);
+        return $axios.$get(`/syliusapi/${item['@id']}`);
       })
     );
 

@@ -32,7 +32,7 @@ export default {
   async asyncData({ $axios, params }) {
     const itemsPerPage = 12;
     const products = await $axios.$get(
-      `/api/v2/shop/products?itemsPerPage=${itemsPerPage}&page=${params.page}`
+      `/syliusapi/api/v2/shop/products?itemsPerPage=${itemsPerPage}&page=${params.page}`
     );
     const totalPages = Math.ceil(products['hydra:totalItems'] / itemsPerPage);
 

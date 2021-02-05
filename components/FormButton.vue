@@ -8,7 +8,7 @@
   </NuxtLink>
   <button
     v-else
-    type="button"
+    :type="type"
     class="inline-block bg-gray-200 py-3 px-6 rounded hover:bg-gray-300"
   >
     {{ value }}

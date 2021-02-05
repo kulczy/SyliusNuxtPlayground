@@ -22,10 +22,17 @@ export default async () => {
 
     buildModules: ['@nuxtjs/tailwindcss'],
 
-    modules: ['@nuxtjs/axios', '@nuxtjs/pwa', 'nuxt-i18n'],
+    modules: [
+      '@nuxtjs/axios',
+      '@nuxtjs/pwa',
+      'nuxt-i18n',
+      '@nuxtjs/auth-next',
+      '@nuxtjs/proxy'
+    ],
 
     axios: {
-      baseURL: 'https://master.demo.sylius.com'
+      // baseURL: 'https://master.demo.sylius.com'
+      proxy: true
     },
 
     pwa: {
@@ -43,6 +50,35 @@ export default async () => {
       vueI18n: {
         fallbackLocale: 'en_US',
         messages: { en_US: en, de_DE: de, fr_FR: fr }
+      }
+    },
+
+    auth: {
+      strategies: {
+        local: {
+          token: {
+            property: 'token'
+          },
+          user: {
+            property: 'user'
+          },
+          endpoints: {
+            login: {
+              url: '/syliusapi/api/v2/shop/authentication-token',
+              method: 'post'
+            },
+            logout: false,
+            user: false
+          }
+        }
+      },
+      plugins: ['~/plugins/auth.js']
+    },
+
+    proxy: {
+      '/syliusapi': {
+        target: 'https://master.demo.sylius.com',
+        pathRewrite: { '^/syliusapi': '' }
       }
     }
   };
