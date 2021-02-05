@@ -42,7 +42,7 @@
           </div>
         </div>
         <div class="flex items-center">
-          <FormButton :value="$t('addToCart')" type="button" />
+          <FormButton :value="`${$t('addToCart')} (soon...)`" type="button" />
           <span class="text-xl font-bold pl-5">
             {{
               product.variants[selectedVariant].channelPricings.FASHION_WEB

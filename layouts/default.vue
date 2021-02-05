@@ -3,7 +3,7 @@
     <div class="mb-8">
       <Header />
     </div>
-    <div class="container mx-auto my-6 flex-grow">
+    <div class="container mx-auto my-6 px-6 flex-grow">
       <Nuxt />
     </div>
     <div class="mt-20">

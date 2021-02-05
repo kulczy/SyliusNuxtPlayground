@@ -5,7 +5,7 @@ import fr from './locales/fr.json';
 export default async () => {
   return {
     head: {
-      title: 'sylius-nuxt',
+      title: 'Sylius',
       meta: [
         { charset: 'utf-8' },
         { name: 'viewport', content: 'width=device-width, initial-scale=1' },

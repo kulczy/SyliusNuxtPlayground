@@ -1,6 +1,6 @@
 <template>
-  <div class="border-b py-2">
-    <div class="container mx-auto flex items-center justify-between">
+  <div class="border-b py-5">
+    <div class="container mx-auto flex items-center justify-between px-5">
       <div class="logo">
         <NuxtLink :to="localePath('index')"><Logo /></NuxtLink>
       </div>
@@ -51,7 +51,7 @@ export default {
 
 <style scoped>
 .logo {
-  width: 10rem;
+  width: 8rem;
   height: auto;
 }
 
