@@ -3,7 +3,7 @@
     <NuxtLink
       v-for="page in pages"
       :key="page"
-      :to="`${url}${page}`"
+      :to="localePath(`${url}${page}`)"
       class="inline-block py-2 px-3 border rounded"
     >
       {{ page }}

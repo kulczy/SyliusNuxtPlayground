@@ -1,5 +1,5 @@
 <template>
   <div>
-    Elo World
+    {{ $t('latestProducts') }}
   </div>
 </template>

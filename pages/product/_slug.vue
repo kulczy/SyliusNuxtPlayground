@@ -28,7 +28,7 @@
                 :key="variant.code"
                 :value="i"
               >
-                {{ variantsDetails[i].translations.en_US.name }}
+                {{ variantsDetails[i].translations[$i18n.locale].name }}
               </option>
             </select>
           </div>
@@ -42,7 +42,7 @@
           </div>
         </div>
         <div class="flex items-center">
-          <FormButton value="Add to cart (TODO)" />
+          <FormButton :value="$t('addToCart')" />
           <span class="text-xl font-bold pl-5">
             {{
               product.variants[selectedVariant].channelPricings.FASHION_WEB
@@ -53,7 +53,7 @@
       </div>
     </div>
     <div class="mb-10">
-      <div class="text-2xl font-bold mb-4">Details</div>
+      <div class="text-2xl font-bold mb-4">{{ $t('details') }}</div>
       <div>{{ translations.description }}</div>
     </div>
   </div>
@@ -72,11 +72,11 @@ export default {
     };
   },
 
-  async asyncData({ $axios, params }) {
+  async asyncData({ $axios, app, params }) {
     const product = await $axios.$get(`/api/v2/shop/products/${params.slug}`);
 
     const translations = await $axios.$get(
-      `${product.translations.en_US['@id']}`
+      `${product.translations[app.i18n.locale]['@id']}`
     );
 
     const variantsDetails = await Promise.all(

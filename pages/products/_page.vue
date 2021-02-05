@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="text-4xl font-bold mb-10">Products</div>
+    <div class="text-4xl font-bold mb-10">{{ $t('products') }}</div>
     <div class="grid grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
       <div
         v-for="product in products['hydra:member']"
@@ -8,9 +8,9 @@
         class="mb-4"
       >
         <ProductCard
-          :title="product.translations.en_US.name"
+          :title="product.translations[$i18n.locale].name"
           :image="`${product.images[0].path}`"
-          :url="`/product/${product.code}`"
+          :url="localePath(`/product/${product.code}`)"
           :price="product.variants[0].channelPricings.FASHION_WEB.price | price"
         />
       </div>
