@@ -2,16 +2,12 @@
   <div>
     <div class="text-4xl font-bold mb-10">{{ $t('products') }}</div>
     <div class="grid grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
-      <div
-        v-for="product in products['hydra:member']"
-        :key="product.code"
-        class="mb-4"
-      >
+      <div v-for="product in productsList" :key="product.code" class="mb-4">
         <ProductCard
           :title="product.translations[$i18n.locale].name"
           :image="`${product.images[0].path}`"
           :url="localePath(`/product/${product.code}`)"
-          :price="product.variants[0].channelPricings.FASHION_WEB.price | price"
+          :price="product.defaultVariantDetails.price | price"
         />
       </div>
     </div>
@@ -24,8 +20,8 @@ export default {
   name: 'Products',
   data() {
     return {
-      products: [],
-      totalPages: null
+      totalPages: null,
+      productsList: []
     };
   },
 
@@ -34,9 +30,17 @@ export default {
     const products = await $axios.$get(
       `/syliusapi/api/v2/shop/products?itemsPerPage=${itemsPerPage}&page=${params.page}`
     );
+    const productsList = await Promise.all(
+      products['hydra:member'].map(async product => {
+        product.defaultVariantDetails = await $axios.$get(
+          `/syliusapi${product.defaultVariant}`
+        );
+        return product;
+      })
+    );
     const totalPages = Math.ceil(products['hydra:totalItems'] / itemsPerPage);
 
-    return { products, totalPages };
+    return { totalPages, productsList };
   }
 };
 </script>

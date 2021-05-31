@@ -18,17 +18,17 @@
           {{ translations.shortDescription }}
         </div>
         <div class="border rounded p-5 mb-5">
-          <div v-if="product.variants.length > 1" class="mb-3">
+          <div v-if="variantsDetails.length > 1" class="mb-3">
             <select
               v-model="selectedVariant"
               class="block w-full border rounded p-3"
             >
               <option
-                v-for="(variant, i) in product.variants"
+                v-for="variant in variantsDetails"
                 :key="variant.code"
-                :value="i"
+                :value="variant.code"
               >
-                {{ variantsDetails[i].translations[$i18n.locale].name }}
+                {{ variant.translations[$i18n.locale].name }}
               </option>
             </select>
           </div>
@@ -44,10 +44,7 @@
         <div class="flex items-center">
           <FormButton :value="`${$t('addToCart')} (soon...)`" type="button" />
           <span class="text-xl font-bold pl-5">
-            {{
-              product.variants[selectedVariant].channelPricings.FASHION_WEB
-                .price | price
-            }}
+            {{ selectedVariantPrice | price }}
           </span>
         </div>
       </div>
@@ -72,22 +69,33 @@ export default {
     };
   },
 
+  computed: {
+    selectedVariantPrice() {
+      const variant = this.variantsDetails.find(
+        variant => variant.code === this.selectedVariant
+      );
+      return variant.price;
+    }
+  },
+
   async asyncData({ $axios, app, params }) {
     const product = await $axios.$get(
       `/syliusapi/api/v2/shop/products/${params.slug}`
     );
-
+    const defaultVariant = await $axios.$get(
+      `/syliusapi${product.defaultVariant}`
+    );
+    const selectedVariant = defaultVariant.code;
     const translations = await $axios.$get(
       `/syliusapi/${product.translations[app.i18n.locale]['@id']}`
     );
-
     const variantsDetails = await Promise.all(
       product.variants.map(item => {
-        return $axios.$get(`/syliusapi/${item['@id']}`);
+        return $axios.$get(`/syliusapi/${item}`);
       })
     );
 
-    return { product, translations, variantsDetails };
+    return { product, translations, variantsDetails, selectedVariant };
   }
 };
 </script>
